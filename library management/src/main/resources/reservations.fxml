@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.dennis.librarymanagement.librarymanagement.controller.ReservationsController" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10px;">
+    <!-- Padding for the entire VBox -->
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- HBox for User ID, Book ID, and Reserve Book Button -->
+    <HBox spacing="10">
+        <!-- VBox for User ID -->
+        <VBox spacing="5">
+            <Label text="User ID:" style="-fx-text-fill: #333333;"/>
+            <TextField fx:id="userIdField"/>
+        </VBox>
+
+        <!-- VBox for Book ID -->
+        <VBox spacing="5">
+            <Label text="Book ID:" style="-fx-text-fill: #333333;"/>
+            <TextField fx:id="bookIdField"/>
+        </VBox>
+
+        <!-- Reserve Book button aligned horizontally -->
+        <VBox spacing="5">
+            <padding>
+                <Insets top="20" />
+            </padding>
+            <Button text="Reserve Book" onAction="#handleReserveBook" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        </VBox>
+
+    </HBox>
+
+    <!-- TableView for displaying reservations -->
+    <TableView fx:id="reservationsTable">
+        <columns>
+            <TableColumn text="User ID"/>
+            <TableColumn text="Book ID"/>
+            <TableColumn text="Reservation Date"/>
+            <TableColumn text="Status"/>
+        </columns>
+    </TableView>
+</VBox>

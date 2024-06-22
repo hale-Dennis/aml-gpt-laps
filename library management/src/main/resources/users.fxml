@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.dennis.librarymanagement.librarymanagement.controller.UserController" style="-fx-background-color: #f0f0f0;" spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- HBox to align input fields and TableView horizontally -->
+    <HBox spacing="10">
+        <!-- VBox for input fields -->
+        <VBox spacing="5">
+            <Label text="ID:"/>
+            <TextField fx:id="id"/>
+
+            <Label text="Name:"/>
+            <TextField fx:id="name"/>
+
+            <Label text="E-Mail:"/>
+            <TextField fx:id="email"/>
+
+            <Label text="Books reserved:"/>
+            <TextField fx:id="booksReserved"/>
+
+            <Button text="Add User" onAction="#handleAddUser" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        </VBox>
+
+        <!-- TableView -->
+        <TableView fx:id="usersTable">
+            <columns>
+                <TableColumn text="ID"/>
+                <TableColumn text="Name"/>
+                <TableColumn text="email"/>
+                <TableColumn text="Books Reserved"/>
+            </columns>
+        </TableView>
+    </HBox>
+
+    <!-- HBox for action buttons -->
+    <HBox spacing="10">
+<!--        <Button text="Update Book" onAction="#handleUpdateBook" style="-fx-background-color: #3f51b5; -fx-text-fill: white;"/>-->
+        <Button text="Delete User" onAction="#handleDeleteUser" style="-fx-background-color: #F44336; -fx-text-fill: white;"/>
+    </HBox>
+</VBox>
