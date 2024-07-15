@@ -1,54 +1,69 @@
 package com.dennis.product_management_system.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String description;
-    private BigDecimal price;
-    private int quantity;
-    private String category;
+    private Float price;
+    private Integer quantity;
     private String brand;
     private BigDecimal weight;
     private String dimensions;
     private String imageUrl;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    public Product() {}
 
-    public Product(UUID id, String name, String description, BigDecimal price, int quantity, String category, String brand, BigDecimal weight, String dimensions, String imageUrl, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Product(Category category) {
+        this.category = category;
+    }
+
+    public Product(Long id, String name, String description, Float price, Integer quantity, String brand, BigDecimal weight, String dimensions, String imageUrl, LocalDateTime createdDate, LocalDateTime modifiedDate, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.category = category;
         this.brand = brand;
         this.weight = weight;
         this.dimensions = dimensions;
         this.imageUrl = imageUrl;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
+        this.category = category;
     }
 
-    public UUID getId() {
+    public Product() {
+
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,28 +83,20 @@ public class Product {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getBrand() {
@@ -145,12 +152,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id && quantity == product.quantity && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(price, product.price) && Objects.equals(category, product.category) && Objects.equals(brand, product.brand) && Objects.equals(weight, product.weight) && Objects.equals(dimensions, product.dimensions) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(createdDate, product.createdDate) && Objects.equals(modifiedDate, product.modifiedDate);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(price, product.price) && Objects.equals(quantity, product.quantity) && Objects.equals(brand, product.brand) && Objects.equals(weight, product.weight) && Objects.equals(dimensions, product.dimensions) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(createdDate, product.createdDate) && Objects.equals(modifiedDate, product.modifiedDate) && Objects.equals(category, product.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, price, quantity, category, brand, weight, dimensions, imageUrl, createdDate, modifiedDate);
+        return Objects.hash(id, name, description, price, quantity, brand, weight, dimensions, imageUrl, createdDate, modifiedDate, category);
     }
 
     @Override

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Product</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container">
+<h1 class="my-4">Add Product</h1>
+<form th:action="@{/products}" th:object="${product}" method="post">
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" th:field="*{name}" required />
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" class="form-control" id="description" th:field="*{description}" required />
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" class="form-control" id="price" th:field="*{price}" step="0.01" required />
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" class="form-control" id="quantity" th:field="*{quantity}" required />
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" class="form-control" id="category" th:field="*{category}" required />
+    </div>
+    <div class="form-group">
+        <label for="brand">Brand:</label>
+        <input type="text" class="form-control" id="brand" th:field="*{brand}" required />
+    </div>
+    <div class="form-group">
+        <label for="weight">Weight:</label>
+        <input type="text" class="form-control" id="weight" th:field="*{weight}" required />
+    </div>
+    <div class="form-group">
+        <label for="dimensions">Dimensions:</label>
+        <input type="text" class="form-control" id="dimensions" th:field="*{dimensions}" required />
+    </div>
+    <div class="form-group">
+        <label for="imageUrl">Image URL:</label>
+        <input type="url" class="form-control" id="imageUrl" th:field="*{imageUrl}" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+<a href="/products" class="btn btn-secondary mt-3">Back to Product List</a>
+</body>
+</html>

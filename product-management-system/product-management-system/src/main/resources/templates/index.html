@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Product List</h1>
+
+    <!-- Search Form -->
+    <form th:action="@{/products/search}" method="get" class="form-inline mb-3">
+        <input type="text" name="q" placeholder="Search for products..." class="form-control mr-2" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th><a th:href="@{/products(sortField='name', sortDir=${reverseSortDir}, page=${currentPage})}">Name</a></th>
+            <th><a th:href="@{/products(sortField='description', sortDir=${reverseSortDir}, page=${currentPage})}">Description</a></th>
+            <th><a th:href="@{/products(sortField='price', sortDir=${reverseSortDir}, page=${currentPage})}">Price</a></th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}">Name</td>
+            <td th:text="${product.description}">Description</td>
+            <td th:text="${product.price}">Price</td>
+            <td>
+                <a th:href="@{/products/{id}(id=${product.id})}" class="btn btn-info">View</a>
+                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-warning">Edit</a>
+                <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" class="d-inline">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between">
+        <div>
+            Page <span th:text="${currentPage + 1}">1</span> of <span th:text="${totalPages}">1</span>
+        </div>
+        <div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/products(page=${currentPage - 1}, sortField=${sortField}, sortDir=${sortDir})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/products(page=${i}, sortField=${sortField}, sortDir=${sortDir})}" th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/products(page=${currentPage + 1}, sortField=${sortField}, sortDir=${sortDir})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <a href="/products/new" class="btn btn-success mt-3">Add New Product</a>
+</div>
+</body>
+</html>

@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
+/* This class is used for Postman testing */
 @RestController
 @RequestMapping("api/products")
 public class ProductController {
@@ -25,7 +25,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable(name = "id", required = true) UUID id) {
+    public Product getProductById(@PathVariable(name = "id", required = true) Long id) {
         return productService.getProductById(id);
     }
 
@@ -37,7 +37,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(
-            @PathVariable(name = "id", required = true) UUID id,
+            @PathVariable(name = "id", required = true) Long id,
             @RequestBody Product updatedProduct) {
         Product updated = productService.updateProduct(id, updatedProduct);
         if (updated != null) {
@@ -48,12 +48,17 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id", required = true) UUID id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id", required = true) Long id) {
         boolean deleted = productService.deleteProduct(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("search")
+    public List<Product> searchProducts(@RequestParam(name = "q") String searchTerm) {
+        return productService.searchProducts(searchTerm);
     }
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Product</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container my-5">
+<h1 class="mb-4">View Product</h1>
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="https://images.squarespace-cdn.com/content/v1/5f5fad91bc730e74afe64d13/1645020376975-24DKW6Z810Y8M55NTA9Q/airpur+360+air+purifier+ireland+-+hepa+approved.jpg?format=500w" class="card-img" alt="Product Image" style="max-height: 300px; object-fit: cover;">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Name: <span th:text="${product.name}">Name</span></h5>
+                <p class="card-text">Description: <span th:text="${product.description}">Description</span></p>
+                <p class="card-text">Price: <span th:text="${product.price}">Price</span></p>
+                <p class="card-text">Quantity: <span th:text="${product.quantity}">Quantity</span></p>
+                <p class="card-text">Category: <span th:text="${product.category.getName()}">Category</span></p>
+                <p class="card-text">Brand: <span th:text="${product.brand}">Brand</span></p>
+                <p class="card-text">Weight: <span th:text="${product.weight}">Weight</span></p>
+                <p class="card-text">Dimensions: <span th:text="${product.dimensions}">Dimensions</span></p>
+                <p class="card-text">Image URL: <span th:text="${product.imageUrl}">Image URL</span></p>
+                <a href="/products" class="btn btn-primary mt-3">Back to Product List</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
