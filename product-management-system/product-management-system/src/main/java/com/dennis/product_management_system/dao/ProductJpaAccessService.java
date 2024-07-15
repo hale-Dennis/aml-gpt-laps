@@ -48,6 +48,7 @@ public class ProductJpaAccessService implements ProductDao {
         product.setCategory(updatedProduct.getCategory());
         product.setBrand(updatedProduct.getBrand());
         product.setWeight(updatedProduct.getWeight());
+        product.setImageUrl(updatedProduct.getImageUrl());
 
         productRepository.save(product);
         return productRepository.save(product);
