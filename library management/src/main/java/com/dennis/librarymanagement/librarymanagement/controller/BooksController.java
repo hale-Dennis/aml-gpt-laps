@@ -46,7 +46,7 @@ public class BooksController {
     }
 
     @FXML
-    private void handleAddBook() {
+    public void handleAddBook() {
         String title = titleField.getText();
         String author = authorField.getText();
         String publisher = publisherField.getText();
@@ -74,7 +74,7 @@ public class BooksController {
     }
 
     @FXML
-    private void handleUpdateBook() {
+    public void handleUpdateBook() {
         Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             String title = titleField.getText();
@@ -106,7 +106,7 @@ public class BooksController {
     }
 
     @FXML
-    private void handleDeleteBook() {
+    public void handleDeleteBook() {
         Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             String sql = "DELETE FROM Book WHERE id = ?";
@@ -124,7 +124,7 @@ public class BooksController {
         }
     }
 
-    private void loadBooks() {
+    public void loadBooks() {
         books.clear();
 
         String sql = "SELECT * FROM Book";
