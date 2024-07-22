@@ -21,6 +21,15 @@ public class Book {
         this.copies = copies;
     }
 
+    public Book(String title, String author, String publisher, int publishedYear, String isbn, int copies) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.publishedYear = publishedYear;
+        this.isbn = isbn;
+        this.copies = copies;
+    }
+
     public int getId() {
         return id;
     }

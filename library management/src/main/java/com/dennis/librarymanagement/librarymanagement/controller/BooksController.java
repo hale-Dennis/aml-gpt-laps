@@ -1,7 +1,6 @@
 package com.dennis.librarymanagement.librarymanagement.controller;
 
 import com.dennis.librarymanagement.librarymanagement.entities.Book;
-import com.dennis.librarymanagement.librarymanagement.services.DatabaseService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,9 +8,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BooksController {
@@ -29,7 +25,17 @@ public class BooksController {
     private TextField copiesField;
     @FXML
     private TableView<Book> booksTable;
+
     private ObservableList<Book> books;
+    private BookService bookService;
+
+    public BooksController() {
+        try {
+            this.bookService = new BookService();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
@@ -54,22 +60,8 @@ public class BooksController {
         String isbn = isbnField.getText();
         int copies = Integer.parseInt(copiesField.getText());
 
-        String sql = "INSERT INTO Book (title, author, publisher, published_year, isbn, copies) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseService.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, title);
-            pstmt.setString(2, author);
-            pstmt.setString(3, publisher);
-            pstmt.setInt(4, year);
-            pstmt.setString(5, isbn);
-            pstmt.setInt(6, copies);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        Book book = new Book(title, author, publisher, year, isbn, copies);
+        bookService.addBook(book);
         loadBooks();
     }
 
@@ -84,23 +76,14 @@ public class BooksController {
             String isbn = isbnField.getText();
             int copies = Integer.parseInt(copiesField.getText());
 
-            String sql = "UPDATE Book SET title = ?, author = ?, publisher = ?, published_year = ?, isbn = ?, copies = ? WHERE id = ?";
+            selectedBook.setTitle(title);
+            selectedBook.setAuthor(author);
+            selectedBook.setPublisher(publisher);
+            selectedBook.setPublishedYear(year);
+            selectedBook.setIsbn(isbn);
+            selectedBook.setCopies(copies);
 
-            try (Connection conn = DatabaseService.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-                pstmt.setString(1, title);
-                pstmt.setString(2, author);
-                pstmt.setString(3, publisher);
-                pstmt.setInt(4, year);
-                pstmt.setString(5, isbn);
-                pstmt.setInt(6, copies);
-                pstmt.setInt(7, selectedBook.getId());
-                pstmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            bookService.updateBook(selectedBook);
             loadBooks();
         }
     }
@@ -109,44 +92,13 @@ public class BooksController {
     public void handleDeleteBook() {
         Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
-            String sql = "DELETE FROM Book WHERE id = ?";
-
-            try (Connection conn = DatabaseService.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-                pstmt.setInt(1, selectedBook.getId());
-                pstmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            bookService.deleteBook(selectedBook.getId());
             loadBooks();
         }
     }
 
     public void loadBooks() {
         books.clear();
-
-        String sql = "SELECT * FROM Book";
-
-        try (Connection conn = DatabaseService.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                Book book = new Book();
-                book.setId(rs.getInt("id"));
-                book.setTitle(rs.getString("title"));
-                book.setAuthor(rs.getString("author"));
-                book.setPublisher(rs.getString("publisher"));
-                book.setPublishedYear(rs.getInt("published_year"));
-                book.setIsbn(rs.getString("isbn"));
-                book.setCopies(rs.getInt("copies"));
-                books.add(book);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        books.addAll(bookService.getAllBooks());
     }
 }
-
