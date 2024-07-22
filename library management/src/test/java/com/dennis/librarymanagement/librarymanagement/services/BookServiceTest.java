@@ -71,11 +71,17 @@ class BookServiceTest {
         Book book = new Book("Test Title", "Test Author", "Test Publisher", 2021, "1234567890", 5);
         bookService.addBook(book);
 
-        Book addedBook = bookService.getAllBooks().get(0);
+        List<Book> booksBeforeDelete = bookService.getAllBooks();
+        assertEquals(1, booksBeforeDelete.size(), "Expected 1 book before deletion");
+
+        Book addedBook = booksBeforeDelete.get(0);
         bookService.deleteBook(addedBook.getId());
 
-        List<Book> books = bookService.getAllBooks();
-        assertEquals(0, books.size());
+        List<Book> booksAfterDelete = bookService.getAllBooks();
+        assertEquals(0, booksAfterDelete.size(), "Expected 0 books after deletion");
+
+        Book retrievedBook = bookService.getBookById(addedBook.getId());
+        assertNull(retrievedBook, "Expected null when retrieving deleted book");
     }
 
     @Test
