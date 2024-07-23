@@ -22,6 +22,7 @@ public class IssueReturnController {
     @FXML
     private TableView<Transaction> transactionsTable;
     private ObservableList<Transaction> transactions;
+    private IssueReturnService issueReturnService;
 
     @FXML
     public void initialize() {
@@ -34,6 +35,7 @@ public class IssueReturnController {
         transactionsTable.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("issueDate"));
         transactionsTable.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         transactionsTable.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("status"));
+        issueReturnService = new IssueReturnService();
     }
 
     @FXML

@@ -22,9 +22,10 @@ public class ReservationsController {
     @FXML
     private TableView<Reservation> reservationsTable;
     private ObservableList<Reservation> reservations;
+    private ReservationService reservationService;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
         reservations = FXCollections.observableArrayList();
         reservationsTable.setItems(reservations);
         loadReservations();
@@ -33,6 +34,7 @@ public class ReservationsController {
         reservationsTable.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("bookId"));
         reservationsTable.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("reservationDate"));
         reservationsTable.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("status"));
+        reservationService = new ReservationService();
     }
 
     @FXML
@@ -40,42 +42,13 @@ public class ReservationsController {
         int userId = Integer.parseInt(userIdField.getText());
         int bookId = Integer.parseInt(bookIdField.getText());
 
-        String sql = "INSERT INTO Reservation (user_id, book_id, reservation_date, status) VALUES (?, ?, CURDATE(), 'reserved')";
-
-        try (Connection conn = DatabaseService.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, bookId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        reservationService.reserveBook(userId, bookId);
         loadReservations();
     }
 
     private void loadReservations() {
         reservations.clear();
-
-        String sql = "SELECT * FROM Reservation";
-
-        try (Connection conn = DatabaseService.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                Reservation reservation = new Reservation();
-                reservation.setId(rs.getInt("id"));
-                reservation.setUserId(rs.getInt("user_id"));
-                reservation.setBookId(rs.getInt("book_id"));
-                reservation.setReservationDate(rs.getDate("reservation_date"));
-                reservation.setStatus(rs.getString("status"));
-                reservations.add(reservation);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        reservationService.loadReservation(reservations);
     }
 }
 
