@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.dennis.librarymanagement.librarymanagement.controller.BooksController" style="-fx-background-color: #f0f0f0;" spacing="10">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.dennis.librarymanagement.controller.BooksController" style="-fx-background-color: #f0f0f0;" spacing="10">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>

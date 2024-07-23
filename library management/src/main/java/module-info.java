@@ -5,12 +5,13 @@ module com.dennis.librarymanagement.librarymanagement {
     requires java.sql;
 
 
-    opens com.dennis.librarymanagement.librarymanagement to javafx.fxml;
-    opens com.dennis.librarymanagement.librarymanagement.controller to javafx.fxml;
+    opens com.dennis.librarymanagement to javafx.fxml;
+    opens com.dennis.librarymanagement.controller to javafx.fxml;
 
 
-    exports com.dennis.librarymanagement.librarymanagement;
-    exports com.dennis.librarymanagement.librarymanagement.controller;
-    exports com.dennis.librarymanagement.librarymanagement.entities;
-    exports com.dennis.librarymanagement.librarymanagement.services;
+    exports com.dennis.librarymanagement;
+    exports com.dennis.librarymanagement.controller;
+    exports com.dennis.librarymanagement.entities;
+    exports com.dennis.librarymanagement.services;
+    opens com.dennis.librarymanagement.services to javafx.fxml;
 }

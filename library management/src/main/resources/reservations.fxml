@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.dennis.librarymanagement.librarymanagement.controller.ReservationsController" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10px;">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.dennis.librarymanagement.controller.ReservationsController" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10px;">
     <!-- Padding for the entire VBox -->
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
