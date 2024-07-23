@@ -12,11 +12,19 @@ public class Student extends User{
         this.booksReserved = reservedBooks;
     }
 
+    public Student(String id, String name, String email) {
+        super(Integer.parseInt(id), name,email);
+    }
+
     public int getBooksReserved() {
         return booksReserved;
     }
 
     public void setBooksReserved(int booksReserved) {
         this.booksReserved = booksReserved;
+    }
+
+    public void setReservedBooks(int reservedBooks) {
+        this.booksReserved = reservedBooks;
     }
 }
