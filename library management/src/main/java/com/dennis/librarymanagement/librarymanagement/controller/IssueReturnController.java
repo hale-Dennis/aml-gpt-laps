@@ -43,17 +43,7 @@ public class IssueReturnController {
         int userId = Integer.parseInt(userIdField.getText());
         int bookId = Integer.parseInt(bookIdField.getText());
 
-        String sql = "INSERT INTO Transaction (user_id, book_id, issue_date, status) VALUES (?, ?, CURDATE(), 'issued')";
-
-        try (Connection conn = DatabaseService.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, bookId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        issueReturnService.issueBook(userId, bookId);
 
         loadTransactions();
     }
@@ -62,43 +52,13 @@ public class IssueReturnController {
     private void handleReturnBook() {
         int userId = Integer.parseInt(userIdField.getText());
         int bookId = Integer.parseInt(bookIdField.getText());
-
-        String sql = "UPDATE Transaction SET return_date = CURDATE(), status = 'returned' WHERE user_id = ? AND book_id = ? AND status = 'issued'";
-
-        try (Connection conn = DatabaseService.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, bookId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        issueReturnService.returnBook(userId, bookId);
 
         loadTransactions();
     }
 
     private void loadTransactions() {
         transactions.clear();
-
-        String sql = "SELECT * FROM Transaction";
-
-        try (Connection conn = DatabaseService.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                Transaction transaction = new Transaction();
-                transaction.setId(rs.getInt("id"));
-                transaction.setUserId(rs.getInt("user_id"));
-                transaction.setBookId(rs.getInt("book_id"));
-                transaction.setIssueDate(rs.getDate("issue_date"));
-                transaction.setReturnDate(rs.getDate("return_date"));
-                transaction.setStatus(rs.getString("status"));
-                transactions.add(transaction);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        issueReturnService.loadTransactions(transactions);
     }
 }
