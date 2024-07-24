@@ -34,10 +34,6 @@ public class Book {
         return id;
     }
 
-    public String getId(String nada) {
-        return String.valueOf(id);
-    }
-
     public void setId(int id) {
         this.id = id;
     }

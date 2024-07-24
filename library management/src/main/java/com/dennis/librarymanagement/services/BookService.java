@@ -21,7 +21,7 @@ public class BookService {
         String sql = "INSERT INTO Book (id,title, author, publisher, published_year, isbn, copies) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, book.getId(""));
+            pstmt.setString(1, String.valueOf(book.getId()));
             pstmt.setString(2, book.getTitle());
             pstmt.setString(3, book.getAuthor());
             pstmt.setString(4, book.getPublisher());
@@ -49,7 +49,7 @@ public class BookService {
             pstmt.setInt(4, book.getPublishedYear());
             pstmt.setString(5, book.getIsbn());
             pstmt.setInt(6, book.getCopies());
-            pstmt.setInt(7, Integer.parseInt(book.getId("")));
+            pstmt.setInt(7, book.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

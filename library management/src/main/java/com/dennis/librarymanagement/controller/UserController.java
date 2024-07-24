@@ -13,17 +13,17 @@ import java.sql.SQLException;
 
 public class UserController {
     @FXML
-    private TextField id;
+    TextField id;
     @FXML
-    private TextField name;
+    TextField name;
     @FXML
-    private TextField email;
+    TextField email;
     @FXML
-    private TextField booksReserved;
+    TextField booksReserved;
 
 
     @FXML
-    private TableView<Student> usersTable;
+    TableView<Student> usersTable;
     private ObservableList<Student> users;
     private UserService userService;
 
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @FXML
-    private void handleAddUser() {
+    public void handleAddUser() {
         int id = Integer.parseInt(this.id.getText());
         String name = this.name.getText();
         String email = this.email.getText();
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @FXML
-    private void handleDeleteUser() {
+    public void handleDeleteUser() {
         Student selectedUser = usersTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             userService.deleteUser(selectedUser.getId());
@@ -68,27 +68,9 @@ public class UserController {
         }
     }
 
-    private void loadUsers() {
+    public void loadUsers() {
         users.clear();
         users.addAll(userService.getAllUsers());
-
-//        String sql = "SELECT * FROM User";
-//
-//        try (Connection conn = DatabaseService.getConnection();
-//             PreparedStatement pstmt = conn.prepareStatement(sql);
-//             ResultSet rs = pstmt.executeQuery()) {
-//
-//            while (rs.next()) {
-//                Student user = new Student();
-//                user.setId(rs.getInt("ID"));
-//                user.setName(rs.getString("name"));
-//                user.setEmail(rs.getString("email"));
-//                user.setBooksReserved(rs.getInt("reserved_books"));
-//                users.add(user);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
     }
 }
 
