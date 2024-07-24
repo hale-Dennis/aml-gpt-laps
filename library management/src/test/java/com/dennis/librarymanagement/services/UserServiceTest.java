@@ -1,8 +1,6 @@
-package com.dennis.librarymanagement.controller;
+package com.dennis.librarymanagement.services;
 
 import com.dennis.librarymanagement.entities.Student;
-import com.dennis.librarymanagement.services.DatabaseService;
-import com.dennis.librarymanagement.services.UserService;
 import org.junit.jupiter.api.*;
 
 import java.sql.*;

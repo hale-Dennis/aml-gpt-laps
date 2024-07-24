@@ -17,20 +17,26 @@ public class BookService {
         this.conn = connection;
     }
 
-    public void addBook(Book book) {
-        String sql = "INSERT INTO Book (title, author, publisher, published_year, isbn, copies) VALUES (?, ?, ?, ?, ?, ?)";
+    public int addBook(Book book) {
+        String sql = "INSERT INTO Book (id,title, author, publisher, published_year, isbn, copies) VALUES (?, ?, ?, ?, ?, ?,?)";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, book.getTitle());
-            pstmt.setString(2, book.getAuthor());
-            pstmt.setString(3, book.getPublisher());
-            pstmt.setInt(4, book.getPublishedYear());
-            pstmt.setString(5, book.getIsbn());
-            pstmt.setInt(6, book.getCopies());
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, book.getId(""));
+            pstmt.setString(2, book.getTitle());
+            pstmt.setString(3, book.getAuthor());
+            pstmt.setString(4, book.getPublisher());
+            pstmt.setInt(5, book.getPublishedYear());
+            pstmt.setString(6, book.getIsbn());
+            pstmt.setInt(7, book.getCopies());
             pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
     public void updateBook(Book book) {
@@ -43,7 +49,7 @@ public class BookService {
             pstmt.setInt(4, book.getPublishedYear());
             pstmt.setString(5, book.getIsbn());
             pstmt.setInt(6, book.getCopies());
-            pstmt.setInt(7, book.getId());
+            pstmt.setInt(7, Integer.parseInt(book.getId("")));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +57,7 @@ public class BookService {
     }
 
     public void deleteBook(int bookId) {
-        String sql = "DELETE FROM Book WHERE id = ?";
+        String sql = "DELETE FROM book WHERE id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, bookId);
@@ -63,7 +69,7 @@ public class BookService {
 
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM Book";
+        String sql = "SELECT * FROM book";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -88,7 +94,7 @@ public class BookService {
 
     public Book getBookById(int bookId) {
         Book book = null;
-        String sql = "SELECT * FROM Book WHERE id = ?";
+        String sql = "SELECT * FROM book WHERE id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, bookId);
