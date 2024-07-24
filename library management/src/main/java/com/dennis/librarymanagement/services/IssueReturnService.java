@@ -18,7 +18,7 @@ public class IssueReturnService {
 
     public void issueBook(int userId, int bookId) {
 
-        String sql = "INSERT INTO Transaction (user_id, book_id, issue_date, status) VALUES (?, ?, CURDATE(), 'issued')";
+        String sql = "INSERT INTO transaction (user_id, book_id, issue_date, status) VALUES (?, ?, CURDATE(), 'issued')";
 
         try{
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class IssueReturnService {
 
     public void returnBook(int userId, int bookId) {
 
-        String sql = "UPDATE Transaction SET return_date = CURDATE(), status = 'returned' WHERE user_id = ? AND book_id = ? AND status = 'issued'";
+        String sql = "UPDATE transaction SET return_date = CURDATE(), status = 'returned' WHERE user_id = ? AND book_id = ? AND status = 'issued'";
 
         try{
             PreparedStatement pstmt = conn.prepareStatement(sql);

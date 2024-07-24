@@ -22,7 +22,7 @@ public class ReservationService {
     }
 
     public void reserveBook(int userId, int bookId){
-        String sql = "INSERT INTO Reservation (user_id, book_id, reservation_date, status) VALUES (?, ?, CURDATE(), 'reserved')";
+        String sql = "INSERT INTO reservation (user_id, book_id, reservation_date, status) VALUES (?, ?, CURDATE(), 'reserved')";
 
         try {
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -39,7 +39,7 @@ public class ReservationService {
     }
 
     public List<Reservation> loadReservation() {
-        String sql = "SELECT * FROM Reservation";
+        String sql = "SELECT * FROM reservation";
         List<Reservation> reservations = new ArrayList<>();
 
         try {
