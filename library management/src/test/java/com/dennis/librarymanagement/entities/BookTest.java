@@ -49,7 +49,7 @@ public class BookTest {
 
     @Test
     public void testGetPublisher() {
-        assertEquals("Klay-Thomson", book.getPublisher());
+        assertEquals("Klay-Thompson", book.getPublisher());
     }
 
     @Test
