@@ -9,28 +9,30 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
 
 public class DatabaseServiceTest {
 
     @Test
-    public void testGetConnection() throws SQLException {
-        // Arrange
-        String url = "jdbc:mysql://localhost:3306/library";
-        String user = "root";
-        String password = "@Kanekipass12";
-        Connection mockConnection = mock(Connection.class);
+    void testGetConnection() throws SQLException {
+        // Mocking the Connection
+        Connection connectionMock = Mockito.mock(Connection.class);
 
-        // Mock the DriverManager
+        // Mocking DriverManager static method using Mockito
         try (MockedStatic<DriverManager> mockedDriverManager = Mockito.mockStatic(DriverManager.class)) {
-            mockedDriverManager.when(() -> DriverManager.getConnection(url, user, password)).thenReturn(mockConnection);
+            mockedDriverManager.when(() -> DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/librarytest", "root", "@Kanekipass12"
+            )).thenReturn(connectionMock);
 
-            // Act
-            Connection connection = DatabaseService.getConnection();
+            // Call the method under test
+            Connection conn = DatabaseService.getConnection();
 
-            // Assert
-            assertNotNull(connection);
-            mockedDriverManager.verify(() -> DriverManager.getConnection(url, user, password), times(1));
+            // Verify that the connection is not null
+            assertNotNull(conn);
+
+            // Verify that DriverManager.getConnection was called once with the correct parameters
+            mockedDriverManager.verify(() -> DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/librarytest", "root", "@Kanekipass12"
+            ));
         }
     }
 }
